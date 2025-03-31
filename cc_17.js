@@ -74,3 +74,50 @@ vipCustomer1.addPurchase(300);
 vipCustomer1.addPurchase(400);
 console.log(`VIP Customer: ${vipCustomer1.name}, Level: ${vipCustomer1.vipLevel}`);
 console.log(`Total Spent with bonus: $${vipCustomer1.getTotalSpent().toFixed(2)}`);
+
+
+// Task 4: Build a Client Report System
+
+console.log('\nTask 4: Client Report System');
+
+const customer2 = new Customer('Dontae Smallwood', 'dsmallwood@gmail.com');
+customer2.addPurchase(50);
+customer2.addPurchase(75);
+customer2.addPurchase(200);
+
+
+vipCustomer2.addPurchase(600);
+vipCustomer2.addPurchase(250);
+
+
+salesRep1.addClient(customer2);
+salesRep1.addClient(vipCustomer1);
+salesRep1.addClient(vipCustomer2);
+
+
+const totalRevenue = salesRep1.clients.reduce((total, customer) => {
+    return total + (customer instanceof VIPCustomer ? customer.getTotalSpent() : customer.getTotalSpent());
+}, 0);
+
+console.log(`Total Revenue from all customers: $${totalRevenue.toFixed(2)}`);
+
+
+const highSpendingCustomers = salesRep1.clients.filter(customer => {
+    return customer.getTotalSpent() > 500;
+});
+
+console.log('\nHigh-spending customers (>$500):');
+highSpendingCustomers.forEach(customer => {
+    console.log(`- ${customer.name}: $${customer.getTotalSpent().toFixed(2)}`);
+});
+
+const customerSummary = salesRep1.clients.map(customer => {
+    return {
+        name: customer.name,
+        totalSpent: customer.getTotalSpent().toFixed(2),
+        type: customer instanceof VIPCustomer ? 'VIP' : 'Regular'
+    };
+});
+
+console.log('\nCustomer Summary:');
+console.table(customerSummary);
